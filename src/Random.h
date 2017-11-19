@@ -4,13 +4,14 @@
 class Random
 {
 public:
-	Random();
+	Random(bool useSysRand = true);
 	~Random();
 
-	void srand(const unsigned int seed);
-	unsigned int rand();
+	void init(const unsigned int seed);
+	unsigned int random();
 private:
 	unsigned int m_Seed;
+	bool m_UseSysRand;
 };
 
 #endif

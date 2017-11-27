@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include "Random.h"
 
+#define ROTATE(x, n) (((x) << (n)) | ((x) >> (32 - (n))))
+
 #define RANDOM_A 6147023
 #define RANDOM_B 89633
 #define RANDOM_MAX 0xFFFFFFFF
@@ -26,5 +28,11 @@ void Random::init(const unsigned int seed)
 unsigned int Random::random()
 {
 	m_Seed = m_Seed * RANDOM_A + RANDOM_B;
-	return m_UseSysRand ? rand() : (m_Seed & RANDOM_MAX);
+	if (m_UseSysRand)
+		return rand();
+	else
+	{
+		m_Seed = ROTATE(m_Seed, 17);
+		return (m_Seed & RANDOM_MAX);
+	}
 }
